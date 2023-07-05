@@ -2,24 +2,25 @@ import { observer } from "mobx-react-lite";
 import { countriesStore, continentsStore, errorStore } from "@/store";
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
-import { useState, forwardRef, Children, Fragment, useEffect } from "react";
+import {useState, forwardRef, Children, Fragment, useEffect, ReactNode} from "react";
+interface Props {
+    children?: ReactNode;
+    onInputUpdate(value: string): void;
+}
 /*
 * part straight from Boostrap docs. May be unnecessary for simple filtering
 * */
 // forwardRef again here!
 // Dropdown needs access to the DOM of the Menu to measure it
-const CustomMenu = forwardRef(
-    ({ children, style, className, 'aria-labelledby': labeledBy, onInputUpdate }, ref) => {
+const CustomMenu = forwardRef<HTMLDivElement, Props>(
+    function CustomMenu({ children, onInputUpdate }, ref) {
         const [value, setValue] = useState('');
         useEffect(() => {
             onInputUpdate(value);
-        }, [value])
+        }, [value, onInputUpdate]);
         return (
             <div
                 ref={ref}
-                style={style}
-                className={className}
-                aria-labelledby={labeledBy}
             >
                 <Form.Control
                     autoFocus

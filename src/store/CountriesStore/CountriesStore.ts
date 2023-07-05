@@ -8,7 +8,7 @@ export class CountriesStore {
         continents: []
     };
     countriesPromise: TCountriesPromise = null;
-    countriesFetchError = null; // TODO proper typing
+    countriesFetchError: Error | null = null;
 
     constructor() {
         //FIXME:
@@ -25,11 +25,11 @@ export class CountriesStore {
             const promise = fetch('/api/countries');
             this.countriesPromise = promise;
             promise
-                .then((data) => {
+                .then((data): Promise<ICountries> => {
                     if(!data.ok) {
                         throw new Error('Err while getting countries');
                     }
-                    return <ICountries>data.json();
+                    return data.json();
                 })
                 .then((countries) =>  {
                     this.setCountries(countries);
@@ -63,7 +63,7 @@ export class CountriesStore {
 
     get filteredCountries(): ICountries {
         const clone = JSON.parse(JSON.stringify(this.countries));
-        const filtered = clone.continents.reduce((memo: ICountryContinent[], item) => {
+        const filtered = clone.continents.reduce((memo: ICountryContinent[], item: ICountryContinent) => {
             const filteredNames = item.countries.filter((countryName) => {
                 return countryName
                     .toLowerCase()

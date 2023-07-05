@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import type { IContinent } from ".";
 
 export class ContinentsStore {
-    continents: [IContinent] = [];
+    continents: IContinent[] = [];
     currentContinent: IContinent = {
         name: '',
         info: '',

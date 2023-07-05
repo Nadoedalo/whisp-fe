@@ -4,5 +4,5 @@ export interface ICountryContinent {
     countries: string[]
 }
 export interface ICountries {
-    continents: [ICountryContinent];
+    continents: ICountryContinent[];
 }
